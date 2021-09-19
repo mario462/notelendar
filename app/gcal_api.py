@@ -1,6 +1,5 @@
 import logging
 from typing import Optional
-import datetime
 import arrow
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import Resource, build
