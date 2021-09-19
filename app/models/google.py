@@ -5,18 +5,23 @@ from pydantic import HttpUrl
 from sqlmodel import Field, SQLModel
 
 
-class Attendee(SQLModel, table=False):
+class BaseGoogleModel(SQLModel, table=False):
+    class Config:
+        allow_population_by_field_name = True
+
+
+class Attendee(BaseGoogleModel):
     email: Optional[str]
     organizer: Optional[bool]
     is_self: Optional[bool] = Field(alias="self")
     response_status: Optional[str] = Field(alias="responseStatus")
 
 
-class DateTimeField(SQLModel, table=False):
-    dateTime: datetime
+class DateTimeField(BaseGoogleModel):
+    date_time: datetime = Field(alias="dateTime")
 
 
-class Event(SQLModel, table=False):
+class Event(BaseGoogleModel):
     event_id: str = Field(default=None, primary_key=True, alias="id")
     status: str
     google_calendar_link: HttpUrl = Field(alias="htmlLink")
@@ -29,6 +34,3 @@ class Event(SQLModel, table=False):
     end: DateTimeField
     attendees: List[Attendee]
     google_meet_link: Optional[HttpUrl] = Field(alias="hangoutLink")
-
-    class Config:
-        allow_population_by_field_name = True
