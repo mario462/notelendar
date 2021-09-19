@@ -5,6 +5,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import Resource, build
 from pydantic import parse_obj_as
 
+from app import LOGGER
 from app.models.google import Event
 
 
@@ -34,4 +35,5 @@ def get_events(calendar_service: Resource, *, day: Optional[str]) -> list[Event]
         .execute()
     )
     events = parse_obj_as(list[Event], events_result.get('items', []))
+    LOGGER.info(f"Fetched {len(events)} events from {time_min} to {time_max}")
     return events
