@@ -1,13 +1,10 @@
 import uvicorn
-from fastapi import FastAPI
 
-from app import gcal_api
+from app import APP, gcal_api
 from app.authentication import authenticator
 
-app = FastAPI()
 
-
-@app.get("/")
+@APP.get("/")
 def get_events() -> list[object]:
     credentials = authenticator.authenticate()
     gcal_service = gcal_api.build_service(credentials)
@@ -15,4 +12,4 @@ def get_events() -> list[object]:
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(APP, host="0.0.0.0", port=8000)
