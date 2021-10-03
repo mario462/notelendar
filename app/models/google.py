@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import HttpUrl
 from sqlmodel import Field, SQLModel
@@ -32,5 +32,5 @@ class Event(BaseGoogleModel):
     organizer: Attendee
     start: DateTimeField
     end: DateTimeField
-    attendees: List[Attendee]
+    attendees: Optional[list[Attendee]]
     google_meet_link: Optional[HttpUrl] = Field(alias="hangoutLink")
